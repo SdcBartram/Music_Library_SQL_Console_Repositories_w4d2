@@ -5,6 +5,7 @@ from models.artist import Artist
 
 import repositories.artist_repository as artist_repository
 
+
 def save(album):
     sql = "INSERT INTO albums (title, artist_id, genre) VALUES (%s, %s, %s) RETURNING *"
     values = [album.title, album.artist.id, album.genre]
@@ -12,6 +13,7 @@ def save(album):
     id = results[0]['id']
     album.id = id
     return album
+
 
 def delete_all():
     sql = "DELETE FROM albums"
@@ -25,22 +27,23 @@ def select(id):
     values = [id]
     results = run_sql(sql, values)
 
-    # checking if the list returned by `run_sql(sql, values)` is empty. Empty lists are 'fasly' 
+    # checking if the list returned by `run_sql(sql, values)` is empty. Empty lists are 'fasly'
     # Could alternativly have..
-    # if len(results) > 0 
+    # if len(results) > 0
     if results:
         result = results[0]
         artist = artist_repository.select(result['artist_id'])
         album = Album(result['title'], artist, result['genre'], result['id'])
     return album
 
-### EXTENSIONS
+# EXTENSIONS
 
 
 def delete(id):
     sql = "DELETE FROM albums WHERE id = %s"
     values = [id]
     run_sql(sql, values)
+
 
 def select_all():
     albums = []
@@ -53,6 +56,7 @@ def select_all():
         albums.append(album)
 
     return albums
+
 
 def update(album):
     sql = "UPDATE albums SET (title, artist_id, genre) = (%s, %s, %s) WHERE id = %s"
