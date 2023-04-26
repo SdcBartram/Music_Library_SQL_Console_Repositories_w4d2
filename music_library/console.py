@@ -33,7 +33,7 @@ album_repository.save(album2)
 # album_repository.update(album1) 
 ## not working ...
 # album1.title = "The Best Hits"
-# album_repository.update(album1) 
+# album_repository.update(3) 
 ## still not working ...
 album2 = Album("The Best Hits", "Alternative", artist2)
 album_repository.update(album2)
